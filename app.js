@@ -210,6 +210,8 @@ Swal.fire({
    
   
     carrito.splice(vindex , 1);
+   localStorage.setItem('carrito', JSON.stringify(carrito));
+
     imprimirTabla(); 
   } 
 });
