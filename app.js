@@ -1,7 +1,7 @@
 var productos = JSON.parse(localStorage.getItem('productos')) || []; //estos son los arreglos victoria "productos es el tamaño de pizza, el que va junto a precio"
 var precios = JSON.parse(localStorage.getItem('precios')) || [];//"precio de pizza"
 var pi = JSON.parse(localStorage.getItem('pi')) || [];//tipo de pizza 
-// los pone asi para que jale los datos que estan en localStorage al momento de cargar
+// los pone asi para que jale los datos que estan en localStorage al momento de cargar y pues lo demas es lo mismo ya le agregara al momento de cargar(guardar) las cosas que ingresda en donde pide los datos
 
 
 var slectpizza=document.querySelector("#piz")
@@ -15,11 +15,12 @@ var vcan=document.querySelector("#can");
 
 
 
-var carrito=new Array();
+var carrito= JSON.parse(localStorage.getItem('carrito')) || [];
+
 var totalp=0;
 var new1=document.querySelector("#new");
 let nue=document.querySelector("#nuevop");
-var nn;
+
 var pp=document.querySelector("#pre");
 var nn=document.querySelector("#nom")
 var nueva=document.querySelector("#newta");
@@ -27,6 +28,9 @@ var nueva=document.querySelector("#newta");
 
 var nuevapi=document.querySelector("#nuevapizza");
 var pizza=document.querySelector("#pizza");
+
+
+var tabladel=document.querySelector("cargar")
 
 
 var posProducto=-1;
@@ -40,10 +44,17 @@ nuevapizza.onclick=()=>{
    
 }
 
-const Todo=()=>{
+const Todo=()=>{// esta constante sera la que ara que cargue todo asl momento de reiniciar la pagina       la vas a mandar a llamar en el html dentro de la etiqueta "body" con onload....  <body onload="Todo();">... 
+
   cargarProductos();
   cargarProductos2();
+  imprimirTabla();
+
 }
+
+
+
+
 const cargarProductos2=()=>{
   let optionProductos2="";
   pi.forEach((producto) => {
@@ -111,7 +122,11 @@ agregarCarrito.onclick=()=>{
     orden.push(preciopiza);
     carrito.push(orden);
     }
-    imprimirTabla()
+    
+    
+        localStorage.setItem('carrito', JSON.stringify(carrito));
+        imprimirTabla();
+    
     
   
 }
@@ -149,7 +164,7 @@ const imprimirTabla=()=>{
     </tr>
     `;
     var vindex=0;
-    //console.log(carrito)
+  
 
 
     carrito.forEach(orden=>{
@@ -232,27 +247,30 @@ const desaparecerPedido=()=>{
     document.getElementById("carrito").innerHTML="";
  }
 
-nue.onclick=()=>{
-    let p=pp.value;
-    let n3=nn.value;
-    productos.push(n3);
-    precios.push(p);
+// aqui es donde agrega las otras cosas que son para guardar en l+el local 
+//esto es para guardar uy lo de arriva para cargar
 
+nue.onclick=()=>{ //este de nue.onclick es el voton de la modal de tamaño y precio de pizza que es el que al momento que de guardar se cargan los datos
+    let p=pp.value; //pp es el input donde pide el precio
+    let n3=nn.value;// y nn es donde pide el tamaño
+    productos.push(n3);//pues en estas dos solo se agregan al carrito 
+    precios.push(p);
+                          //  pero no le hagas caso a esto por si lo tienes diferente si te jala es porque si lo tiene solo que deves ver donde
  
     
 
-    pp.value="";
-    nn.value="";
-    localStorage.setItem('productos', JSON.stringify(productos));
-    localStorage.setItem('precios', JSON.stringify(precios));
+    pp.value="";//limpiar los input
+    nn.value="";//limpiar los input
+    localStorage.setItem('productos', JSON.stringify(productos));// y en estos si ya es donde tiene que agregar esa parte de JSON pone el arreglo de productos que es "el de tamaño"
+    localStorage.setItem('precios', JSON.stringify(precios));// y en el otro es el de precios y ya lo que agregue se guardara en el LocalStorage
     cargarProductos();
 }
 
 
 
-nuevapi.onclick=()=>{
+nuevapi.onclick=()=>{// es lo mismo de arriva y este es el boton de la modal de tipo pizza o nombre 
   pi.push(pizza.value);
   pizza.value="";
-  localStorage.setItem('pi', JSON.stringify(pi));
+  localStorage.setItem('pi', JSON.stringify(pi));//y igual que los otros es lo mismo pero con el arreglo de pi(que es el de tipoPizza o nombre de la Pizza)
   cargarProductos2();
 }
