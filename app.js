@@ -237,7 +237,8 @@ const {value: pos} = await Swal.fire({
             
           })
           desaparecerPedido();
-
+localStorage.setItem('carrito', JSON.stringify(carrito));
+   
       }
     }
   }); 
